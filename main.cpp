@@ -1,11 +1,11 @@
 #include <iostream>
-// #include "Planet.h"
+#include <math>
+#include "Planet.h"
 using namespace std;
 
-int main(){ // Aim: compute the motion of th eEarth using different methods for solving ODE's. 
+int main(){ 
 	
-	double G, mass_Earth, mass_Sun;
-	double velocity_x, velocity_y, position_x, position_y;
+	double const G = 6.67408 * pow(10, -11);
 
 	// 1. (d position_x/dt) = velocity_x 
 	// 2. (d veolcity_x/dt) = G*mass_Sun / r^2 = velocity_x^2/r
@@ -17,7 +17,7 @@ int main(){ // Aim: compute the motion of th eEarth using different methods for 
 
 	// EULERS FORWARD METHOD
 	int N;
-	double step_length = 1 / N;
+	double step_length;
 
 	// f'(x) = (f(x+step_length) - f(x))/step_length + 0(h);
 
