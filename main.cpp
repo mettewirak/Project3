@@ -1,6 +1,8 @@
 #include <iostream>
 #include <math>
-#include "Planet.h"
+#include "classes\Planet.h"
+#include "classes\Euler.h"
+#include "classes\Verlet.h"
 using namespace std;
 
 int main(){ 
