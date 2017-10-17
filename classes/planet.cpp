@@ -10,7 +10,6 @@ planet::planet(){
     for(int i=0; i<2; i++){
         this->position[i] = 0.0;
         this->velocity[i] = 0.0;
-        this->acceleration[i] = 0.0;
     }
 }
 
@@ -21,20 +20,8 @@ planet::planet(double m, double pos_x, double pos_y, double vel_x, double vel_y)
     this->position[1] = pos_y;
     this->velocity[0] = vel_x;
     this->velocity[1] = vel_y;
-    this->acceleration[0] = 0.0;
-    this->acceleration[1] = 0.0;
 }
 
-planet::planet(double m, double pos_x, double pos_y, double vel_x, double vel_y, double acc_x, double acc_y)
-{
-    this->mass = m;
-    this->position[0] = pos_x;
-    this->position[1] = pos_y;
-    this->velocity[0] = vel_x;
-    this->velocity[1] = vel_y;
-    this->acceleration[0] = acc_x;
-    this->acceleration[1] = acc_y;
-}
 
 planet::~planet(){
 
@@ -64,5 +51,4 @@ void planet::print_to_screen(){
     cout << "The mass of the planet is " << this->mass << "." << endl;
     cout << "The planet has coordinates " << this->position[0] << ", " << this-> position[1] << "." << endl;
     cout << "The planet has velocity " << this->velocity[0] << ", " << this->velocity[1] << "." << endl;
-    cout << "The planet has acceleration " << this->acceleration[0] << ", " << this->acceleration[1] << "." << endl;
 }

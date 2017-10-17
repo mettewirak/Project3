@@ -2,34 +2,31 @@
 #include <cmath>
 #include <fstream>
 #include <iomanip>
-#include "classes\planet.h"
-#include "classes\solver.h"
+#include "planet.h"
+#include "solver.h"
 
 using namespace std;
 std::ofstream ofile;
 
-int without_classes();
+int VelocityVerlet();
 
 int main()
 {
-    // without_classes();
 
-    // int dimension = 2;
-
-    planet Earth(1, 1.0, 0.0, 0.0, 2*M_PI, -4*M_PI*M_PI, 0.0);
-    planet Sun(1, 0.0, 0.0, 0.0, 0.0);
-    //Earth.print_to_screen();
-    //solver current(1000, 5.0);
-    //current.VelocityVerlet(Earth);
-    //current.print_to_screen();
+    planet Earth(1, 1.0, 0.0, 0.0, 2*M_PI), Sun(1, 0.0, 0.0, 0.0, 0.0);
 
     double temp = Earth.distance(Sun);
 
     cout << "Avstanden mellom Earth og Sun er " << temp << " AU." << endl;
 
+    solver now;
+
+    now.add_planet(Earth);
+    now.add_planet(Sun);
+    now.print_to_screen();
 }
 
-int without_classes(){
+int VelocityVerlet(){
 
     int dim = 2;
 
@@ -90,5 +87,6 @@ int without_classes(){
     ofile.close();
 
     cout << "Ferdig!" << endl;
+
     return 0;
 }

@@ -2,6 +2,7 @@
 #define SOLVER_H
 
 #include <cmath>
+#include <vector>
 #include "planet.h"
 
 class solver
@@ -16,18 +17,17 @@ class solver
         // double dt;
         double mass_Sun;
         double G;
+        std::vector<planet> all_planets;
 
-
-	// Constructors and destructer
+    // Constructors and destructer
         solver();
         solver(int iteration_points, double final_time);
-        solver(int iteration_points, double final_time, planet Earth);
         ~solver(){}
 
     // Functions
-        void VelocityVerlet(planet Earth, planet Sun);
+        void VelocityVerlet();
         void print_to_screen();
-        void print_to_file();
+        void add_planet(planet new_planet);
 
 };
 

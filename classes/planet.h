@@ -8,13 +8,10 @@ class planet
             double mass;
             double position[2];
             double velocity[2];
-            double acceleration[2];
 
     // Constructors and destructer
             planet();
             planet(double mass, double pos_x, double pos_y, double vel_x, double vel_y);
-            planet(double mass, double pos_x, double pos_y, double vel_x, double vel_y, double acc_x, double acc_y);
-
             ~planet();
 
     // Functions
