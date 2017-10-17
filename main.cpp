@@ -2,8 +2,8 @@
 #include <cmath>
 #include <fstream>
 #include <iomanip>
-#include "planet.h"
-#include "solver.h"
+#include "classes/planet.h"
+#include "classes/solver.h"
 
 using namespace std;
 std::ofstream ofile;
