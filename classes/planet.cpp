@@ -13,6 +13,17 @@ planet::planet(){
     }
 }
 
+planet::planet(double m, double distance){
+    mass = m;
+    position[0] = distance;
+    position[1] = 0.0;
+    velocity[0] = 0.0;
+    if(distance==0)
+        velocity[1] = 0.0;
+    else
+        velocity[1] = 2*M_PI/sqrt(distance);
+}
+
 planet::planet(double m, double pos_x, double pos_y, double vel_x, double vel_y){
 
     this->mass = m;
@@ -25,7 +36,6 @@ planet::planet(double m, double pos_x, double pos_y, double vel_x, double vel_y)
 
 planet::~planet(){
 
-
 }
 
 double planet::distance(planet otherPlanet){
@@ -36,15 +46,6 @@ double planet::distance(planet otherPlanet){
     return sqrt(xx + yy);
 }
 
-double planet::radius_to_sun(double position[2]){
-
-    double temp = 0.0;
-    for(int i=0; i<2; i++){
-        temp = temp + position[i]*position[i];
-    }
-
-    return sqrt(temp);
-}
 
 void planet::print_to_screen(){
 

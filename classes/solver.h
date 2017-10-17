@@ -13,11 +13,10 @@ class solver
 
     // Variables
         double integration_points;
-        double final_time;
-        // double dt;
-        double mass_Sun;
+        double time, final_time, dt;
         double G;
         std::vector<planet> all_planets;
+        int total_planets;
 
     // Constructors and destructer
         solver();

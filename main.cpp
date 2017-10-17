@@ -8,25 +8,34 @@
 using namespace std;
 std::ofstream ofile;
 
-int VelocityVerlet();
+int withoutClasses_VelocityVerlet();
 
 int main()
 {
+    // without_classes();
 
-    planet Earth(1, 1.0, 0.0, 0.0, 2*M_PI), Sun(1, 0.0, 0.0, 0.0, 0.0);
-
-    double temp = Earth.distance(Sun);
-
-    cout << "Avstanden mellom Earth og Sun er " << temp << " AU." << endl;
+    // Planeter. Antar her at initialfarten ikke påvirkes av de andre planetene.
+    planet Sun(1, 0.0);
+//    planet Mercury(1.65e-7, 0.39);
+//    planet Venus(2.45e-6, 0.72);
+    planet Earth(3e-6, 1.0);
+//    planet Mars(3.3e-7, 1.52);
+    planet Jupiter(9.5e-4, 5.20);
+//    planet Saturn(2.75e-4, 9.54);
+//    planet Uranus(4.4e-5, 19.19);
+//    planet Neptune(5.15e-5, 30.06);
+//    planet Pluto(6.55e-9, 39.53)
 
     solver now;
 
-    now.add_planet(Earth);
     now.add_planet(Sun);
+    now.add_planet(Earth);
+    now.add_planet(Jupiter);
     now.print_to_screen();
+    now.VelocityVerlet();
 }
 
-int VelocityVerlet(){
+int withoutClasses_VelocityVerlet(){
 
     int dim = 2;
 
