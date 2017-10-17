@@ -1,26 +1,26 @@
 #ifndef PLANET_H
 #define PLANET_H
 
-class Planet
+class planet
 {
-	private:
-
-	protected:
-
     public:
     // Variables
-		double mass;
-		double position[2]; // x and y
-		double velocity[2]; // x and y
+            double mass;
+            double position[2];
+            double velocity[2];
+            double acceleration[2];
 
-	// Constructors and destructer
-		Planet();
-        Planet(double m, double x, double y, double vx, double vy);
+    // Constructors and destructer
+            planet();
+            planet(double mass, double pos_x, double pos_y, double vel_x, double vel_y);
+            planet(double mass, double pos_x, double pos_y, double vel_x, double vel_y, double acc_x, double acc_y);
 
-        ~Planet();
+            ~planet();
 
     // Functions
-
+            double distance(planet otherPlanet);
+            double radius_to_sun(double position[2]);
+            void print_to_screen();
 };
 
 #endif // PLANET_H

@@ -2,9 +2,8 @@
 #include <cmath>
 #include <fstream>
 #include <iomanip>
-#include "Planet.h"
-//#include "Euler.h"
-#include "Verlet.h"
+#include "planet.h"
+#include "solver.h"
 
 using namespace std;
 std::ofstream ofile;
@@ -15,12 +14,18 @@ int main()
 {
     // without_classes();
 
-    int dimenstion = 2;
-    Planet Earth(1, 1.0, 0.0, 0.0, 2*M_PI, -4*M_PI*M_PI, 0.0);
+    // int dimension = 2;
+
+    planet Earth(1, 1.0, 0.0, 0.0, 2*M_PI, -4*M_PI*M_PI, 0.0);
+    planet Sun(1, 0.0, 0.0, 0.0, 0.0);
     //Earth.print_to_screen();
-    Verlet solver(1000, 5.0);
-    solver.solve(Earth);
-    solver.print_to_screen();
+    //solver current(1000, 5.0);
+    //current.VelocityVerlet(Earth);
+    //current.print_to_screen();
+
+    double temp = Earth.distance(Sun);
+
+    cout << "Avstanden mellom Earth og Sun er " << temp << " AU." << endl;
 
 }
 
