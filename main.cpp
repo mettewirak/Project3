@@ -1,16 +1,10 @@
 #include <iostream>
-<<<<<<< HEAD
 #include <cmath>
 #include <fstream>
 #include <iomanip>
-#include "classes/planet.h"
-#include "classes/solver.h"
+#include "classes\planet.h"
+#include "classes\solver.h"
 
-=======
-#include <math>
-#include "classes\Planet.h"
-#include "classes\Verlet.h"
->>>>>>> 89cd580d595ecff0e56c398c75d6b4959d447c74
 using namespace std;
 std::ofstream ofile;
 
@@ -37,7 +31,6 @@ int main()
 
 int without_classes(){
 
-<<<<<<< HEAD
     int dim = 2;
 
     int integration_points = 1000;
@@ -97,11 +90,5 @@ int without_classes(){
     ofile.close();
 
     cout << "Ferdig!" << endl;
-
     return 0;
-=======
-int main(){ 
-
-	return 0;
->>>>>>> 89cd580d595ecff0e56c398c75d6b4959d447c74
 }
