@@ -2,8 +2,8 @@
 #include <cmath>
 #include <fstream>
 #include <iomanip>
-#include "planet.h"
-#include "solver.h"
+#include "classes/planet.h"
+#include "classes/solver.h"
 
 using namespace std;
 std::ofstream ofile;
@@ -12,8 +12,6 @@ int withoutClasses_VelocityVerlet();
 
 int main()
 {
-    // without_classes();
-
     // Planeter. Antar her at initialfarten ikke påvirkes av de andre planetene.
     planet Sun(1, 0.0);
 //    planet Mercury(1.65e-7, 0.39);
@@ -26,13 +24,7 @@ int main()
 //    planet Neptune(5.15e-5, 30.06);
 //    planet Pluto(6.55e-9, 39.53)
 
-    solver now;
-
-    now.add_planet(Sun);
-    now.add_planet(Earth);
-    now.add_planet(Jupiter);
-    now.print_to_screen();
-    now.VelocityVerlet();
+// Kjør noe.
 }
 
 int withoutClasses_VelocityVerlet(){

@@ -6,12 +6,15 @@ using namespace std;
 
 planet::planet(){
 
-    this->mass = 1;
+    mass = 1;
     for(int i=0; i<2; i++){
-        this->position[i] = 0.0;
-        this->velocity[i] = 0.0;
+        position[i] = 0.0;
+        velocity[i] = 0.0;
     }
+    potential = 0;
+    kinetic = 0;
 }
+
 
 planet::planet(double m, double distance){
     mass = m;
@@ -19,24 +22,30 @@ planet::planet(double m, double distance){
     position[1] = 0.0;
     velocity[0] = 0.0;
     if(distance==0)
-        velocity[1] = 0.0;
+        {velocity[1] = 0.0;}
     else
-        velocity[1] = 2*M_PI/sqrt(distance);
+        {velocity[1] = 2*M_PI/sqrt(distance);}
+    potential = 0.0;
+    kinetic = 0.0;
 }
+
 
 planet::planet(double m, double pos_x, double pos_y, double vel_x, double vel_y){
 
-    this->mass = m;
-    this->position[0] = pos_x;
-    this->position[1] = pos_y;
-    this->velocity[0] = vel_x;
-    this->velocity[1] = vel_y;
+    mass = m;
+    position[0] = pos_x;
+    position[1] = pos_y;
+    velocity[0] = vel_x;
+    velocity[1] = vel_y;
+    kinetic = 0.0;
+    potential = 0.0;
 }
 
 
 planet::~planet(){
 
 }
+
 
 double planet::distance(planet otherPlanet){
 
@@ -49,7 +58,13 @@ double planet::distance(planet otherPlanet){
 
 void planet::print_to_screen(){
 
-    cout << "The mass of the planet is " << this->mass << "." << endl;
-    cout << "The planet has coordinates " << this->position[0] << ", " << this-> position[1] << "." << endl;
-    cout << "The planet has velocity " << this->velocity[0] << ", " << this->velocity[1] << "." << endl;
+    cout << "The mass of the planet is " << mass << "." << endl;
+    cout << "The planet has coordinates " << position[0] << ", " << position[1] << "." << endl;
+    cout << "The planet has velocity " << velocity[0] << ", " << velocity[1] << "." << endl;
+}
+
+
+double planet::kinetic_energy(){
+
+    return 0.5*this->mass*(this->velocity[0]*this->velocity[0]+this->velocity[1]*this->velocity[1]);
 }

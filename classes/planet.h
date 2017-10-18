@@ -8,6 +8,8 @@ class planet
             double mass;
             double position[2];
             double velocity[2];
+            double potential;
+            double kinetic;
 
     // Constructors and destructer
             planet();
@@ -18,6 +20,7 @@ class planet
     // Functions
             double distance(planet otherPlanet);
             void print_to_screen();
+            double kinetic_energy();
 };
 
 #endif // PLANET_H
