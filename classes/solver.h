@@ -15,6 +15,7 @@ class solver
         double time, final_time;
         double dt;
         double G;
+        double dim;
         std::vector<planet> all_planets;
         int total_planets;
         double total_kinetic;
