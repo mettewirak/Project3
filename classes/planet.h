@@ -10,6 +10,7 @@ class planet
             double velocity[2];
             double potential;
             double kinetic;
+            double angular_momentum;
 
     // Constructors and destructer
             planet();
@@ -21,6 +22,7 @@ class planet
             double distance(planet otherPlanet);
             void print_to_screen();
             double kinetic_energy();
+            double find_angular_momentum();
 };
 
 #endif // PLANET_H

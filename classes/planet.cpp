@@ -13,6 +13,7 @@ planet::planet(){
     }
     potential = 0;
     kinetic = 0;
+    angular_momentum = find_angular_momentum();
 }
 
 
@@ -27,6 +28,7 @@ planet::planet(double m, double distance){
         {velocity[1] = 2*M_PI/sqrt(distance);}
     potential = 0.0;
     kinetic = 0.0;
+    angular_momentum = find_angular_momentum();
 }
 
 
@@ -39,6 +41,7 @@ planet::planet(double m, double pos_x, double pos_y, double vel_x, double vel_y)
     velocity[1] = vel_y;
     kinetic = 0.0;
     potential = 0.0;
+    angular_momentum = find_angular_momentum();
 }
 
 
@@ -67,4 +70,10 @@ void planet::print_to_screen(){
 double planet::kinetic_energy(){
 
     return 0.5*this->mass*(this->velocity[0]*this->velocity[0]+this->velocity[1]*this->velocity[1]);
+}
+
+
+double planet::find_angular_momentum(){
+
+    return mass*(position[0]*velocity[1] - position[1]*velocity[0]);
 }

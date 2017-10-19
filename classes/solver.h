@@ -14,11 +14,11 @@ class solver
         double integration_points;
         double time, final_time;
         double dt;
-        double mass_Sun;
         double G;
         std::vector<planet> all_planets;
         int total_planets;
         double total_kinetic;
+        double total_potential;
 
     // Constructors and destructer
         solver();
@@ -32,6 +32,8 @@ class solver
         void print_energies();
         void add_planet(planet new_planet);
         void calculate_kinetic_energies();
+        void calculate_potential_energies();
+        void update_angular_momentum();
 };
 
 #endif // SOLVER_H

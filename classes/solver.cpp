@@ -141,16 +141,16 @@ void solver::print_to_screen(){
 void solver::print_planet_name(planet current){
 
     // Skriv ut navnet på planeten
-    if(current.mass==1){cout << "The sun";}
-    else if(current.mass==1.65e-7){cout << "Mercury";}
-    else if(current.mass==2.45e-6){cout << "Venus";}
-    else if(current.mass==3e-6){cout << "Earth";}
-    else if(current.mass==3.3e-7){cout << "Mars";}
-    else if(current.mass==9.5e-4){cout << "Jupiter";}
-    else if(current.mass==2.75e-4){cout << "Saturn";}
-    else if(current.mass==4.4e-5){cout << "Uranus";}
-    else if(current.mass==5.15e-5){cout << "Neptune";}
-    else if(current.mass==6.55e-9){cout << "Pluto";}
+    if(current.mass==1){cout << setw(8) << left << "The sun";}
+    else if(current.mass==1.65e-7){cout << setw(8) << "Mercury";}
+    else if(current.mass==2.45e-6){cout << setw(8) << "Venus";}
+    else if(current.mass==3e-6){cout << setw(8) << "Earth";}
+    else if(current.mass==3.3e-7){cout << setw(8) << "Mars";}
+    else if(current.mass==9.5e-4){cout << setw(8) << "Jupiter";}
+    else if(current.mass==2.75e-4){cout << setw(8) << "Saturn";}
+    else if(current.mass==4.4e-5){cout << setw(8) << "Uranus";}
+    else if(current.mass==5.15e-5){cout << setw(8) << "Neptune";}
+    else if(current.mass==6.55e-9){cout << setw(8) << "Pluto";}
 }
 
 
@@ -162,7 +162,7 @@ void solver::add_planet(planet new_planet){
 }
 
 
-void solver::calculate_kinetic_energies(){
+void solver::calculate_kinetic_energies(){ // Bevares bra.
     total_kinetic = 0.0;
     for(int i=0; i<this->total_planets; i++){
         planet &current = this->all_planets[i];
@@ -171,10 +171,37 @@ void solver::calculate_kinetic_energies(){
     }
 }
 
+
+void solver::calculate_potential_energies(){ // Bevares ikke bra nok. Noe som kan fikses?? Ser på tallene at den dobbles av Velocity Verlet. Merkelig.
+    total_potential = 0.0;
+
+    for(int nr1 = 0; nr1<total_planets; nr1++){
+        planet &current = all_planets[nr1];
+
+        for(int nr2 = 0; nr2<total_planets; nr2++){
+            planet &other = all_planets[nr2];
+
+            if(nr1!=nr2){
+                current.potential += (G*current.mass*other.mass)/current.distance(other);
+                total_potential += current.potential;
+            }
+        }
+    }
+}
+
+
 void solver::print_energies(){
     for(int i=0; i<total_planets; i++){
         planet &current = all_planets[i];
         print_planet_name(current);
-        cout << ": " << current.kinetic << endl;
+        cout << " - kinetic: " << current.kinetic << ", potential: " << current.potential << ", angular momentum: " << current.angular_momentum << endl;
+    }
+}
+
+
+void solver::update_angular_momentum(){
+    for(int i=0; i<total_planets; i++){
+        planet &current = all_planets[i];
+        current.angular_momentum = current.find_angular_momentum();
     }
 }
