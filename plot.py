@@ -12,8 +12,10 @@ def leser(filename):
 	return x,y,vx,vy
 
 
+
 filename="build-Arnlaug-Desktop-Debug/Earth.txt"
 jupiter="build-Arnlaug-Desktop-Debug/Jupiter.txt"
+
 
 x,y,vx,vy=leser(filename)
 x1,y1,vx1,vy2=leser(jupiter)
