@@ -15,6 +15,7 @@ solver::solver(){
     dt = final_time/integration_points;
     G = 4*M_PI*M_PI;
     total_planets = 0;
+    dim =2;
 }
 
 

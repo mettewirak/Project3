@@ -19,6 +19,7 @@ class solver
         int total_planets;
         double total_kinetic;
         double total_potential;
+        int dim;
 
     // Constructors and destructer
         solver();
@@ -34,6 +35,7 @@ class solver
         void calculate_kinetic_energies();
         void calculate_potential_energies();
         void update_angular_momentum();
+        void Euler();
 };
 
 #endif // SOLVER_H
