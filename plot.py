@@ -12,11 +12,13 @@ def leser(filename):
 	return x,y,vx,vy
 
 
-filename="build-Arnlaug-Desktop-Debug/resultat.txt"
+filename="build-Arnlaug-Desktop-Debug/Earth.txt"
+jupiter="build-Arnlaug-Desktop-Debug/Jupiter.txt"
 
 x,y,vx,vy=leser(filename)
+x1,y1,vx1,vy2=leser(jupiter)
 
 plt.plot(x,y, 'r')
-plt.plot(vx,vy, 'b')
+plt.plot(x1,y1, 'b')
 plt.show()
 

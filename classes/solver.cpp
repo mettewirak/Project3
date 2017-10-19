@@ -10,9 +10,9 @@ using namespace std;
 
 solver::solver(){
 
-    integration_points = 1000;
+    integration_points = 1000000;
     time = 0.0;
-    final_time = 3.0;
+    final_time = 50.0;
     dt = final_time/integration_points;
     G = 4*M_PI*M_PI;
     total_planets = 0;
@@ -147,9 +147,10 @@ void solver::Euler(){
     double r_js=1;
 
 
-    std::ofstream noe;
+
 
     for (int nr1=1; nr1<total_planets; nr1++){
+        std::ofstream noe;
         planet &current= all_planets[nr1];
         string name= print_planet_name(current);
         string filename=name +".txt";
