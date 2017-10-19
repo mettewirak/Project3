@@ -2,39 +2,31 @@
 #include <cmath>
 #include <fstream>
 #include <iomanip>
-#include <string>
-#include "classes/planet.h"
-#include "classes/solver.h"
+#include "planet.h"
+#include "solver.h"
 
 using namespace std;
-//std::ofstream ofile;
+std::ofstream ofile;
 
-int withoutClasses_VelocityVerlet();
 
 int main()
 {
 
-    // Planeter. Antar her at initialfarten ikke påvirkes av de andre planetene.
-    planet Sun(1, 0.0);
-//    planet Mercury(1.65e-7, 0.39);
-//    planet Venus(2.45e-6, 0.72);
-    planet Earth(3e-6, 1.0);
-//    planet Mars(3.3e-7, 1.52);
-    planet Jupiter(9.5e-4, 5.20);
-//    planet Saturn(2.75e-4, 9.54);
-//    planet Uranus(4.4e-5, 19.19);
-//    planet Neptune(5.15e-5, 30.06);
-//    planet Pluto(6.55e-9, 39.53)
+    planet Earth(1, 1.0, 0.0, 0.0, 2*M_PI), Sun(1, 0.0, 0.0, 0.0, 0.0);
 
-// Kjør noe.
-    solver solve;
-    solve.add_planet(Sun);
-    solve.add_planet(Earth);
-    solve.add_planet(Jupiter);
-    solve.Euler();
+    double temp = Earth.distance(Sun);
+
+    cout << "Avstanden mellom Earth og Sun er " << temp << " AU." << endl;
+
+    solver now;
+
+    now.add_planet(Earth);
+    now.add_planet(Sun);
+    now.print_to_screen();
+    now.VelocityVerlet();
 }
 
-/*int withoutClasses_VelocityVerlet(){
+int VelocityVerlet(){
 
     int dim = 2;
 
@@ -98,4 +90,3 @@ int main()
 
     return 0;
 }
-*/

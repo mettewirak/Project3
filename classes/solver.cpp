@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <cmath>
 #include <vector>
+#include <string>
 
 using namespace std;
 
@@ -124,33 +125,53 @@ void solver::VelocityVerlet(){
 }
 
 void solver::Euler(){
-
-    double **acceleration;
-    *acceleration = new double[this->all_planets.size()];
-    for(int i=0; i<this->all_planets.size(); i++){
+    using namespace std;
+    double **acceleration, **acceleration_new;
+    acceleration = new double*[total_planets];
+    acceleration_new = new double*[total_planets];
+    for(int i=0; i<total_planets; i++){
         acceleration[i] = new double[2]; // Dimension
+        acceleration_new[i] = new double[2];
     }
+
+    // Initsialiserer akselerasjonsmatrisene.
+    for(int i=0; i<total_planets; i++){
+        for(int j=0; j<2; j++){
+            acceleration[i][j] = 0.0;
+            acceleration_new[i][j] = 0.0;
+        }
+    }
+
 
 
     double r_js=1;
 
-std::ofstream ofile;
-    int total_planets=all_planets.size();
-    for (int nr1=1; nr1<total_planets;nr1++){
+
+    std::ofstream noe;
+
+    for (int nr1=1; nr1<total_planets; nr1++){
         planet &current= all_planets[nr1];
-        ofile.open("resultat.txt");
+        string name= print_planet_name(current);
+        string filename=name +".txt";
+        noe.open(filename);
+
+
     for (int j=1; j<integration_points; j++){
             r_js = sqrt(current.position[0]*current.position[0]+current.position[1]*current.position[1]);
     for(int i=0; i<dim; i++) {
         acceleration[nr1][i] = -G*current.position[i]/(r_js*r_js*r_js);
-        current.velocity[i] = current.velocity[i]+ dt*acceleration[nr1][i];
         current.position[i] = current.position[i]+dt*current.velocity[i];
-
+        current.velocity[i] = current.velocity[i]+ dt*acceleration[nr1][i];
 
 
     }
-    ofile<<" x= "<<current.position[0]<<" y= "<<current.position[1]<<" vx= "<<current.velocity[0]<<" vy= "<<current.velocity[1]<<endl;
-}
+
+    //cout<< "x= "<< current.position[0]<<endl;
+    noe<<" x= "<<current.position[0]<<" y= "<<current.position[1]<<" vx= "<<current.velocity[0]<<" vy= "<<current.velocity[1]<<endl;
+;
+   // print_to_file(current);
+
+    }
        }
 }
 
@@ -171,19 +192,26 @@ void solver::print_to_screen(){
 }
 
 
-void solver::print_planet_name(planet current){
+string solver::print_planet_name(planet current){
 
     // Skriv ut navnet på planeten
-    if(current.mass==1){cout << setw(8) << left << "The sun";}
-    else if(current.mass==1.65e-7){cout << setw(8) << "Mercury";}
-    else if(current.mass==2.45e-6){cout << setw(8) << "Venus";}
-    else if(current.mass==3e-6){cout << setw(8) << "Earth";}
-    else if(current.mass==3.3e-7){cout << setw(8) << "Mars";}
-    else if(current.mass==9.5e-4){cout << setw(8) << "Jupiter";}
-    else if(current.mass==2.75e-4){cout << setw(8) << "Saturn";}
-    else if(current.mass==4.4e-5){cout << setw(8) << "Uranus";}
-    else if(current.mass==5.15e-5){cout << setw(8) << "Neptune";}
-    else if(current.mass==6.55e-9){cout << setw(8) << "Pluto";}
+    if(current.mass==1){cout << setw(8) << left << "The sun"; return "Sun";}
+    else if(current.mass==1.65e-7){cout << setw(8) << "Mercury"; return "Mercury";}
+    else if(current.mass==2.45e-6){cout << setw(8) << "Venus";  return "Venus";}
+    else if(current.mass==3e-6){cout << setw(8) << "Earth"; return "Earth";}
+    else if(current.mass==3.3e-7){cout << setw(8) << "Mars"; return "Mars";}
+    else if(current.mass==9.5e-4){cout << setw(8) << "Jupiter"; return "Jupiter";}
+    else if(current.mass==2.75e-4){cout << setw(8) << "Saturn"; return "Saturn";}
+    else if(current.mass==4.4e-5){cout << setw(8) << "Uranus"; return "Uranus";}
+    else if(current.mass==5.15e-5){cout << setw(8) << "Neptune"; return "Neptun";}
+    else if(current.mass==6.55e-9){cout << setw(8) << "Pluto"; return "Pluto";}
+
+
+}
+
+
+void solver::print_to_file(planet current){
+
 }
 
 

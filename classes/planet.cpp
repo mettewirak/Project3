@@ -1,6 +1,7 @@
 #include "planet.h"
 #include <iostream>
 #include <cmath>
+#include <string>
 
 using namespace std;
 
@@ -29,6 +30,7 @@ planet::planet(double m, double distance){
     potential = 0.0;
     kinetic = 0.0;
     angular_momentum = find_angular_momentum();
+    name="planet";
 }
 
 

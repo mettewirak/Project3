@@ -12,7 +12,7 @@ def leser(filename):
 	return x,y,vx,vy
 
 
-filename="build-EarthSunProject3-Desktop-Debug/resultat.txt"
+filename="build-Arnlaug-Desktop-Debug/resultat.txt"
 
 x,y,vx,vy=leser(filename)
 

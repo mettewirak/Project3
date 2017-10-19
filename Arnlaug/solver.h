@@ -14,9 +14,10 @@ class solver
     // Variables
         double integration_points;
         double final_time;
-        // double dt;
+        double dt;
         double mass_Sun;
         double G;
+        int dim;
         std::vector<planet> all_planets;
 
     // Constructors and destructer
@@ -28,6 +29,7 @@ class solver
         void VelocityVerlet();
         void print_to_screen();
         void add_planet(planet new_planet);
+        void Euler();
 
 };
 
