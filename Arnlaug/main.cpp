@@ -2,39 +2,31 @@
 #include <cmath>
 #include <fstream>
 #include <iomanip>
-#include "classes\planet.h"
-#include "classes\solver.h"
+#include "planet.h"
+#include "solver.h"
 
 using namespace std;
-//std::ofstream ofile;
+std::ofstream ofile;
 
-int without_classes();
 
 int main()
 {
-    // Planeter. Antar her at initialfarten ikke påvirkes av de andre planetene.
-    planet Sun(1, 0.0);
-//    planet Mercury(1.65e-7, 0.39);
-//    planet Venus(2.45e-6, 0.72);
-    planet Earth(3e-6, 1.0);
-//    planet Mars(3.3e-7, 1.52);
-    planet Jupiter(9.5e-4, 5.20);
-//    planet Saturn(2.75e-4, 9.54);
-//    planet Uranus(4.4e-5, 19.19);
-//    planet Neptune(5.15e-5, 30.06);
-//    planet Pluto(6.55e-9, 39.53)
+
+    planet Earth(1, 1.0, 0.0, 0.0, 2*M_PI), Sun(1, 0.0, 0.0, 0.0, 0.0);
+
+    double temp = Earth.distance(Sun);
+
+    cout << "Avstanden mellom Earth og Sun er " << temp << " AU." << endl;
 
     solver now;
 
-    now.add_planet(Sun);
     now.add_planet(Earth);
-    now.add_planet(Jupiter);
-
-    // Tester at kinetisk og potensiell energi bevares av Velocity Verlet -- Kinetisk bevares bra, men ikke poentiell. Noe som kan fikses??
-    now.print_energies();
+    now.add_planet(Sun);
+    now.print_to_screen();
+    now.VelocityVerlet();
 }
 
-int without_classes(){
+int VelocityVerlet(){
 
     int dim = 2;
 
@@ -86,13 +78,13 @@ int without_classes(){
     }
 
     // PRINT
-    //ofile.open("Output_data.txt");
-    //ofile << "time\t x\t \ty \t\t speed_x\t speed_y\t accel_x\t accel_y " << endl;
-    //ofile << 0 << "\t" << position[0][0] << "\t \t" << position[0][1] << "\t \t" << speed[0][0] << "\t \t" << speed[0][1] << "\t" << acceleration[0][0] << "\t" << acceleration[0][1] << endl;
+    ofile.open("Output_data.txt");
+    ofile << "time\t x\t \ty \t\t speed_x\t speed_y\t accel_x\t accel_y " << endl;
+    ofile << 0 << "\t" << position[0][0] << "\t \t" << position[0][1] << "\t \t" << speed[0][0] << "\t \t" << speed[0][1] << "\t" << acceleration[0][0] << "\t" << acceleration[0][1] << endl;
     for(int i=1; i<integration_points; i++){
-        //ofile << i << "\t" <<position[i][0] << "\t" << position[i][1] << "\t" << speed[i][0] << "\t" << speed[i][1] << "\t" << acceleration[i][0] << "\t" << acceleration[i][1] << endl;
+        ofile << i << "\t" <<position[i][0] << "\t" << position[i][1] << "\t" << speed[i][0] << "\t" << speed[i][1] << "\t" << acceleration[i][0] << "\t" << acceleration[i][1] << endl;
     }
-    //ofile.close();
+    ofile.close();
 
     cout << "Ferdig!" << endl;
 

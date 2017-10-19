@@ -1,5 +1,7 @@
 #ifndef PLANET_H
+#include <string>
 #define PLANET_H
+using namespace std;
 
 class planet
 {
@@ -11,6 +13,8 @@ class planet
             double potential;
             double kinetic;
             double angular_momentum;
+            string name;
+
 
     // Constructors and destructer
             planet();

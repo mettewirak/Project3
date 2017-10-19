@@ -13,6 +13,7 @@ solver::solver(){
     this->final_time = 3.0;
     this->mass_Sun = 1;
     this->G = 4*M_PI*M_PI;
+    this->dim=2;
 }
 
 solver::solver(int integration_points, double final_time){
@@ -32,7 +33,7 @@ void solver::VelocityVerlet(){
     */
     double **acceleration;
     *acceleration = new double[this->all_planets.size()];
-    for(int i=0; i<this->all_planets-size(); i++){
+    for(int i=0; i<this->all_planets.size(); i++){
         acceleration[i] = new double[2]; // Dimension
     }
 
@@ -77,6 +78,38 @@ void solver::VelocityVerlet(){
         }
     }*/
 }
+
+void solver::Euler(){
+
+    double **acceleration;
+    *acceleration = new double[this->all_planets.size()];
+    for(int i=0; i<this->all_planets.size(); i++){
+        acceleration[i] = new double[2]; // Dimension
+    }
+
+
+    double r_js=1;
+
+std::ofstream ofile;
+    int total_planets=all_planets.size();
+    for (int nr1=1; nr1<total_planets;nr1++){
+        planet &current= all_planets[nr1];
+        ofile.open("resultat.txt");
+    for (int j=1; j<integration_points; j++){
+            r_js = sqrt(current.position[0]*current.position[0]+current.position[1]*current.position[1]);
+    for(int i=0; i<dim; i++) {
+        acceleration[nr1][i] = -G*current.position[i]/(r_js*r_js*r_js);
+        current.velocity[i] = current.velocity[i]+ dt*acceleration[nr1][i];
+        current.position[i] = current.position[i]+dt*current.velocity[i];
+
+
+
+    }
+    ofile<<" x= "<<current.position[0]<<" y= "<<current.position[1]<<" vx= "<<current.velocity[0]<<" vy= "<<current.velocity[1]<<endl;
+}
+       }
+}
+
 
 void solver::print_to_screen(){
     // Printing mass, position and velocity of all planets

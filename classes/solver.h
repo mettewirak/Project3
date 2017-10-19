@@ -20,6 +20,8 @@ class solver
         int total_planets;
         double total_kinetic;
         double total_potential;
+        int dim;
+
 
     // Constructors and destructer
         solver();
@@ -30,12 +32,14 @@ class solver
         void VelocityVerlet();
         void Euler();
         void print_to_screen();
-        void print_planet_name(planet current);
+        string print_planet_name(planet current);
         void print_energies();
         void add_planet(planet new_planet);
         void calculate_kinetic_energies();
         void calculate_potential_energies();
         void update_angular_momentum();
+        void Euler();
+        void print_to_file(planet current);
 };
 
 #endif // SOLVER_H
