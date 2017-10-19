@@ -29,6 +29,7 @@ class solver
 
     // Functions
         void VelocityVerlet();
+        void Euler();
         void print_to_screen();
         string print_planet_name(planet current);
         void print_energies();
@@ -36,7 +37,6 @@ class solver
         void calculate_kinetic_energies();
         void calculate_potential_energies();
         void update_angular_momentum();
-        void Euler();
         void print_to_file(planet current);
 };
 

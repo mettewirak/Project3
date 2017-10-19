@@ -15,6 +15,7 @@ solver::solver(){
     final_time = 50.0;
     dt = final_time/integration_points;
     G = 4*M_PI*M_PI;
+    dim = 2;
     total_planets = 0;
     dim =2;
 }
@@ -27,6 +28,7 @@ solver::solver(int integration_points, double final_time){
     this->final_time = final_time;
     dt = final_time/integration_points;
     G = 4*M_PI*M_PI;
+    dim = 2;
     total_planets = 0;
 }
 
@@ -70,15 +72,15 @@ void solver::VelocityVerlet(){
                 planet &other = all_planets[nr2];
 
                 if(nr1!=nr2){
-                    force[0] += (G*current.mass*other.mass*(other.position[0] - current.position[0]))/pow((current.distance(other)),3);
-                    force[1] += (G*current.mass*other.mass*(other.position[1] - current.position[1]))/pow((current.distance(other)),3);
+                    force[0] += (G*current.mass*other.mass*(other.position[0] - current.position[0]))/pow((current.distance(other)),3); // 7 FLOPS
+                    force[1] += (G*current.mass*other.mass*(other.position[1] - current.position[1]))/pow((current.distance(other)),3); // 7 FLOPS
                 }
             }
 
             for(int dim=0; dim<2; dim++){
 
                 // Finne akselerasjon
-                acceleration[nr1][dim] = force[dim]/current.mass;
+                acceleration[nr1][dim] = force[dim]/current.mass; // 1 FLOP
 
                 // Regne ut current posisjon
                 current.position[dim] += dt*current.velocity[dim]+((dt*dt)/2)*acceleration[nr1][dim];
@@ -123,6 +125,7 @@ void solver::VelocityVerlet(){
 
     output_file.close();
 }
+
 
 void solver::Euler(){
     using namespace std;
@@ -175,7 +178,6 @@ void solver::Euler(){
     }
        }
 }
-
 
 
 void solver::print_to_screen(){
@@ -253,11 +255,29 @@ void solver::calculate_potential_energies(){ // Bevares ikke bra nok. Noe som ka
 
 
 void solver::print_energies(){
+
+    std::ofstream output_energies;
+    output_energies.open("Resultat_energier.txt");
+
+    // Kinetisk
+    output_energies << "Kinetic energies: " << endl;
+    calculate_kinetic_energies();
     for(int i=0; i<total_planets; i++){
         planet &current = all_planets[i];
-        print_planet_name(current);
-        cout << " - kinetic: " << current.kinetic << ", potential: " << current.potential << ", angular momentum: " << current.angular_momentum << endl;
+        output_energies << current.kinetic << "\t";
     }
+    output_energies << endl;
+
+    VelocityVerlet();
+    calculate_kinetic_energies();
+
+    for(int i=0; i<total_planets; i++){
+        planet &current = all_planets[i];
+        output_energies << current.kinetic << "\t";
+    }
+
+    output_energies << endl;
+    output_energies.close();
 }
 
 
