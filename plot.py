@@ -12,7 +12,7 @@ def leser(filename):
 	return x,y,vx,vy
 
 
-filename="build-EarthSunProject3-Desktop-Debug/resultat.txt"
+filename="\...\build-project3-test-Desktop_Qt_5_9_1_MinGW_32bit-Debug\Resultater.txt"
 
 x,y,vx,vy=leser(filename)
 

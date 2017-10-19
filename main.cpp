@@ -2,13 +2,13 @@
 #include <cmath>
 #include <fstream>
 #include <iomanip>
-#include "classes/planet.h"
-#include "classes/solver.h"
+#include "classes\planet.h"
+#include "classes\solver.h"
 
 using namespace std;
-std::ofstream ofile;
+//std::ofstream ofile;
 
-int withoutClasses_VelocityVerlet();
+int without_classes();
 
 int main()
 {
@@ -24,10 +24,17 @@ int main()
 //    planet Neptune(5.15e-5, 30.06);
 //    planet Pluto(6.55e-9, 39.53)
 
-// Kjør noe.
+    solver now;
+
+    now.add_planet(Sun);
+    now.add_planet(Earth);
+    now.add_planet(Jupiter);
+
+    // Tester at kinetisk og potensiell energi bevares av Velocity Verlet -- Kinetisk bevares bra, men ikke poentiell. Noe som kan fikses??
+    now.print_energies();
 }
 
-int withoutClasses_VelocityVerlet(){
+int without_classes(){
 
     int dim = 2;
 
@@ -79,13 +86,13 @@ int withoutClasses_VelocityVerlet(){
     }
 
     // PRINT
-    ofile.open("Output_data.txt");
-    ofile << "time\t x\t \ty \t\t speed_x\t speed_y\t accel_x\t accel_y " << endl;
-    ofile << 0 << "\t" << position[0][0] << "\t \t" << position[0][1] << "\t \t" << speed[0][0] << "\t \t" << speed[0][1] << "\t" << acceleration[0][0] << "\t" << acceleration[0][1] << endl;
+    //ofile.open("Output_data.txt");
+    //ofile << "time\t x\t \ty \t\t speed_x\t speed_y\t accel_x\t accel_y " << endl;
+    //ofile << 0 << "\t" << position[0][0] << "\t \t" << position[0][1] << "\t \t" << speed[0][0] << "\t \t" << speed[0][1] << "\t" << acceleration[0][0] << "\t" << acceleration[0][1] << endl;
     for(int i=1; i<integration_points; i++){
-        ofile << i << "\t" <<position[i][0] << "\t" << position[i][1] << "\t" << speed[i][0] << "\t" << speed[i][1] << "\t" << acceleration[i][0] << "\t" << acceleration[i][1] << endl;
+        //ofile << i << "\t" <<position[i][0] << "\t" << position[i][1] << "\t" << speed[i][0] << "\t" << speed[i][1] << "\t" << acceleration[i][0] << "\t" << acceleration[i][1] << endl;
     }
-    ofile.close();
+    //ofile.close();
 
     cout << "Ferdig!" << endl;
 

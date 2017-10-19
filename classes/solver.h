@@ -15,6 +15,7 @@ class solver
         double time, final_time;
         double dt;
         double G;
+        double dim;
         std::vector<planet> all_planets;
         int total_planets;
         double total_kinetic;
@@ -27,6 +28,7 @@ class solver
 
     // Functions
         void VelocityVerlet();
+        void Euler();
         void print_to_screen();
         void print_planet_name(planet current);
         void print_energies();
