@@ -20,7 +20,9 @@ class solver
         int total_planets;
         double total_kinetic;
         double total_potential;
-        int dim;
+        std::string filename;
+        std::ofstream ofile(string filname);
+
 
 
     // Constructors and destructer
@@ -38,7 +40,7 @@ class solver
         void calculate_kinetic_energies();
         void calculate_potential_energies();
         void update_angular_momentum();
-        void print_to_file(planet current);
+        void print_to_file(double x, double y, double vx, double vy,std::ofstream *ofile );
 };
 
 #endif // SOLVER_H

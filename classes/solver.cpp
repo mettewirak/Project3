@@ -145,19 +145,18 @@ void solver::Euler(){
         }
     }
 
-
-
     double r_js=1;
 
 
 
 
     for (int nr1=1; nr1<total_planets; nr1++){
-        std::ofstream noe;
+        std::ofstream ofile;
         planet &current= all_planets[nr1];
         string name= print_planet_name(current);
         string filename=name +".txt";
-        noe.open(filename);
+        ofile.open(filename);
+
 
 
     for (int j=1; j<integration_points; j++){
@@ -171,12 +170,12 @@ void solver::Euler(){
     }
 
     //cout<< "x= "<< current.position[0]<<endl;
-    noe<<" x= "<<current.position[0]<<" y= "<<current.position[1]<<" vx= "<<current.velocity[0]<<" vy= "<<current.velocity[1]<<endl;
-;
-   // print_to_file(current);
+
+   print_to_file(current.position[0], current.position[1], current.velocity[0], current.velocity[1], &ofile );
 
     }
        }
+
 }
 
 
@@ -213,9 +212,13 @@ string solver::print_planet_name(planet current){
 }
 
 
-void solver::print_to_file(planet current){
+void solver::print_to_file(double x,double y,double vx,double vy,std::ofstream *ofile ){
+
+    *ofile<<" x= "<<x<<" y= "<<y<<" vx= "<<vx<<" vy= "<<vy<<endl;
+
 
 }
+
 
 
 void solver::add_planet(planet new_planet){

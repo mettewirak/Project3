@@ -24,8 +24,16 @@ int main()
 //    planet Neptune(5.15e-5, 30.06);
 //    planet Pluto(6.55e-9, 39.53)
 
+    solver now;
+     now.add_planet(Sun);
+     now.add_planet(Earth);
+
+     now.add_planet(Jupiter);
+     now.Euler();
+;
 // Kjør noe.
 }
+/*
 
 int withoutClasses_VelocityVerlet(){
 
@@ -91,3 +99,4 @@ int withoutClasses_VelocityVerlet(){
 
     return 0;
 }
+*/
