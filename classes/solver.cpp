@@ -207,8 +207,7 @@ string solver::print_planet_name(planet current){
     else if(current.mass==4.4e-5){cout << setw(8) << "Uranus"; return "Uranus";}
     else if(current.mass==5.15e-5){cout << setw(8) << "Neptune"; return "Neptun";}
     else if(current.mass==6.55e-9){cout << setw(8) << "Pluto"; return "Pluto";}
-
-
+    else {return "Ukjent planet";}
 }
 
 
@@ -235,7 +234,14 @@ void solver::calculate_kinetic_energies(){ // Bevares bra.
 }
 
 
-void solver::calculate_potential_energies(){ // Bevares ikke bra nok. Noe som kan fikses?? Ser på tallene at den dobbles av Velocity Verlet. Merkelig.
+void solver::calculate_potential_energies(){ // Bevares ikke. Noe som kan fikses?? Ser på tallene at den dobbles av Velocity Verlet og Euler. Merkelig.
+
+    // Nullstiller
+    for(int i=0; i<total_planets; i++){
+        planet &current = all_planets[i];
+        current.potential = 0.0;
+    }
+
     total_potential = 0.0;
 
     for(int nr1 = 0; nr1<total_planets; nr1++){
@@ -258,24 +264,90 @@ void solver::print_energies(){
     std::ofstream output_energies;
     output_energies.open("Resultat_energier.txt");
 
-    // Kinetisk
-    output_energies << "Kinetic energies: " << endl;
+    // Lage matrise for å lagre verdier. Har de følgende radene:
+    // Kinetisk energi før, kinetisk energi etter Velocity Verlet, kinetisk energi etter Euler, potensiell energi før, potensiell energi etter Velocity Verlet...
+    double energier_alle[total_planets][9];
+    for(int i=0; i<total_planets; i++){
+        for(int j=0; j<9; j++){
+                energier_alle[i][j] = 0.0;
+        }
+    }
+
+    // Regne ut startverdier
     calculate_kinetic_energies();
+    calculate_potential_energies();
+    update_angular_momentum();
+
+    // Lagre startverdier.
     for(int i=0; i<total_planets; i++){
         planet &current = all_planets[i];
-        output_energies << current.kinetic << "\t";
-    }
-    output_energies << endl;
 
+        energier_alle[i][0] = current.kinetic;
+        energier_alle[i][3] = current.potential;
+        energier_alle[i][6] = current.angular_momentum;
+    }
+
+    cout << total_kinetic << "  " << total_potential << endl;
+
+    // Kjøre Velocity Verlet og oppdaterer alle verdier
     VelocityVerlet();
     calculate_kinetic_energies();
+    calculate_potential_energies();
+    update_angular_momentum();
 
     for(int i=0; i<total_planets; i++){
         planet &current = all_planets[i];
-        output_energies << current.kinetic << "\t";
+
+        energier_alle[i][1] = current.kinetic;
+        energier_alle[i][4] = current.potential;
+        energier_alle[i][7] = current.angular_momentum;
     }
 
-    output_energies << endl;
+    cout << total_kinetic << "  " << total_potential << endl;
+
+    // Tilbakestiller til verdiene som var før Verlet ble kjørt.
+    for(int i=0; i<total_planets; i++){
+        planet &current = all_planets[i];
+        current.kinetic = energier_alle[i][0];
+        current.potential = energier_alle[i][3];
+        current.angular_momentum = energier_alle[i][6];
+    }
+
+    // Kjøre Euler og oppdaterer alle verdier
+    Euler();
+    calculate_kinetic_energies();
+    calculate_potential_energies();
+    update_angular_momentum();
+
+    for(int i=0; i<total_planets; i++){
+        planet &current = all_planets[i];
+
+        energier_alle[i][2] = current.kinetic;
+        energier_alle[i][5] = current.potential;
+        energier_alle[i][8] = current.angular_momentum;
+    }
+
+    cout << total_kinetic << "  " << total_potential << endl;
+
+    // Printer ut infoen.
+    output_energies << "In the table below, the first column is the planet-number. You then read the value before any actions are done, the value after the Veolcity Verlet is applied and finally the action after the Euler is applied. " << endl << endl;
+    output_energies << setw(37) << "Kinetic" << setw(37) << "Potential" << setw(37) << "Angular momentum" << endl;
+    for(int i=0; i<total_planets; i++){
+        output_energies << i << "  |";
+        for(int j=0; j<3; j++){
+            output_energies << setw(12) << left << energier_alle[i][j] << "  ";
+        }
+        output_energies << "|";
+        for(int j=3; j<6; j++){
+            output_energies << setw(12) << left << energier_alle[i][j] << "  ";
+        }
+        output_energies << "|";
+        for(int j=6; j<9; j++){
+            output_energies << setw(12) << left << energier_alle[i][j] << "  ";
+        }
+        output_energies << "|" << endl;
+    }
+
     output_energies.close();
 }
 
