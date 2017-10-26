@@ -41,6 +41,7 @@ class solver
         void calculate_potential_energies();
         void update_angular_momentum();
         void print_time_spent();                // Prints the time it takes to run VelocityVerlet and Euler to screen.
+        void print_to_file(double x,double y,double vx,double vy,std::ofstream *ofile , std::string name);
 };
 
 #endif // SOLVER_H
