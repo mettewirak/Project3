@@ -12,7 +12,7 @@ solver::solver(){
 
     integration_points = 100000;
     time = 0.0;
-    final_time = 300.0;
+    final_time = 100;
     dt = final_time/integration_points;
     G = 4*M_PI*M_PI;
     dim = 2;
@@ -91,8 +91,9 @@ void solver::VelocityVerlet(){
 
                 if(nr1!=nr2){
 
-                    force[0] += force_general(current, other, 0); // 7 FLOPS * (total_planets - 1)
-                    force[1] += force_general(current, other, 1); // 7 FLOPS * (total_planets - 1)                }
+                    force[0] += force_relativistic(current, other, 0); // 7 FLOPS * (total_planets - 1)
+                    force[1] += force_relativistic(current, other, 1); // 7 FLOPS * (total_planets - 1)
+                }
             }
 
             for(int dim=0; dim<2; dim++){
@@ -111,8 +112,8 @@ void solver::VelocityVerlet(){
 
                 if(nr1!=nr2){
 
-                    force_new[0] += force_general(current, other, 0); // 7 FLOPS * (total_planets - 1)
-                    force_new[1] += force_general(current, other, 1); // 7 FLOPS * * (total_planets - 1)
+                    force_new[0] += force_relativistic(current, other, 0); // 7 FLOPS * (total_planets - 1)
+                    force_new[1] += force_relativistic(current, other, 1); // 7 FLOPS * * (total_planets - 1)
                 }
             }
 
