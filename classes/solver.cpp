@@ -51,8 +51,8 @@ void solver::VelocityVerlet(){
         total_momentum_y=total_momentum_y+current.velocity[1]*current.mass;
     }
     planet &current= all_planets[0];
-    current.velocity[0]=total_momentum_x;
-    current.velocity[1]=total_momentum_y;
+    current.velocity[0]=-total_momentum_x;
+    current.velocity[1]=-total_momentum_y;
 
 
     cout<<total_momentum_x/365.242199<<"y "<<total_momentum_y/365.242199<<endl;
@@ -81,7 +81,7 @@ void solver::VelocityVerlet(){
     while (time<final_time) {
 
         // Iterere gjennom alle planetene for å finne posisjon, fart.
-        for(int nr1=1; nr1<total_planets; nr1++){ // !!! Antar at Sola alltid er planet nr. 0.
+        for(int nr1=0; nr1<total_planets; nr1++){ // !!! Antar at Sola alltid er planet nr. 0.
             planet &current= all_planets[nr1];
             std::string name= get_planet_name(current);
             // Itererer gjennom alle andre planeter for å finne krefter på planet nr 1.
