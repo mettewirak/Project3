@@ -81,8 +81,8 @@ void solver::VelocityVerlet(){
                 planet &other = all_planets[nr2];
 
                 if(nr1!=nr2){
-                    force[0] += (G*current.mass*other.mass*(other.position[0] - current.position[0]))/pow((current.distance(other)),3); // 7 FLOPS * (total_planets - 1)
-                    force[1] += (G*current.mass*other.mass*(other.position[1] - current.position[1]))/pow((current.distance(other)),3); // 7 FLOPS * (total_planets - 1)
+                    force[0] += force_general(current, other, 0); // 7 FLOPS * (total_planets - 1)
+                    force[1] += force_general(current, other, 1); // 7 FLOPS * (total_planets - 1)
                 }
             }
 
@@ -102,8 +102,8 @@ void solver::VelocityVerlet(){
                 planet &other = all_planets[nr2];
 
                 if(nr1!=nr2){
-                    force_new[0] += (G*current.mass*other.mass*(other.position[0] - current.position[0]))/pow((current.distance(other)),3); // 7 FLOPS * (total_planets - 1)
-                    force_new[1] += (G*current.mass*other.mass*(other.position[1] - current.position[1]))/pow((current.distance(other)),3); // 7 FLOPS * * (total_planets - 1)
+                    force_new[0] += force_general(current, other, 0); // 7 FLOPS * (total_planets - 1)
+                    force_new[1] += force_general(current, other, 1); // 7 FLOPS * * (total_planets - 1)
                 }
             }
 
@@ -198,6 +198,25 @@ void solver::Euler(){
     cout << "SD i posisjon ila. hele iterasjonen er " << standard_deviation << " med Euler. \n";
 
     outputstream_euler.close();
+}
+
+
+double solver::force_general(planet current, planet other, int dim){
+
+    return ((G*current.mass*other.mass*(other.position[dim] - current.position[dim]))/pow((current.distance(other)),3));
+}
+
+
+double solver::force_relativistic(planet current, planet other, int dim){
+
+    double general = (G*current.mass*other.mass)/pow(current.distance(other),2);
+    double l = current.position[0]*current.velocity[1] - current.position[1]*current.velocity[0];
+    double r = current.distance(other);
+    double c = 63241.0; // In AU/years. Value can be double checked.
+
+    double dekomponering = (other.position[dim] - current.position[dim])/r;
+
+    return (general*(1 + (3*l*l)/(r*r*c*c)))*dekomponering;
 }
 
 
@@ -386,18 +405,4 @@ void solver::print_time_spent(){
     VelocityVerlet();
     duration2 = (clock() - start2)/double(CLOCKS_PER_SEC);
     cout << "Time spent on Velocity Verlet: " << duration2 << " seconds" << endl;
-}
-
-
-double solver::test_stability_Earth(){
-
-    double temp = 0.0;
-    planet Sun = all_planets[0];
-    planet Earth = all_planets[1];
-
-    for(int i=0; i<integration_points; i++){
-        temp += pow((Earth.distance(Sun) - 1), 2);
-    }
-
-    return temp;
 }
