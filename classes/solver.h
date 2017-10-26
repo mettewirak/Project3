@@ -33,8 +33,8 @@ class solver
     // Functions
         void VelocityVerlet();                  // Prints the results to file "Resultater.txt"
         void Euler();                           // Prints the results to file "Earth.txt" / other planets
-        double force_general(planet current, planet other, int dim);
-        double force_relativistic(planet current, planet other, int dim);
+        double force_general(planet& current, planet& other, int dim);
+        double force_relativistic(planet& current, planet& other, int dim);
         void print_to_screen();                 // Prints all planets, with their positions and velocities, to screen.
         string get_planet_name(planet current);
         void print_energies();                  // Prints to file file

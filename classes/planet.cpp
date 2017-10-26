@@ -52,7 +52,7 @@ planet::~planet(){
 }
 
 
-double planet::distance(planet otherPlanet){
+double planet::distance(planet& otherPlanet){
 
     double xx = pow(this->position[0]-otherPlanet.position[0], 2.0);
     double yy = pow(this->position[1]-otherPlanet.position[1], 2.0);
