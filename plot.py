@@ -1,19 +1,10 @@
 import matplotlib.pyplot as plt
 import matplotlib.axis
 import numpy as np
-"""
-def leser(filename):
-	with open(filename) as f:
-	    lines = f.readlines()
-	    x = [line.split()[1] for line in lines]
-	    y = [line.split()[3] for line in lines]
-	    vx = [line.split()[5] for line in lines]
-	    vy= [line.split()[7] for line in lines]
 
-	return x,y,vx,vy
-"""
 
 def leser(filename):
+	#Leser en fil og legger det til posisjon og hastighet. 
 	with open(filename) as f:
 	    lines = f.readlines()
 	    planet=[line.split()[1] for line in lines]
@@ -25,6 +16,7 @@ def leser(filename):
 	return planet,x,y,vx,vy
 
 def sortere_planeter(planet,x,y,vx,vy):
+	#Her sorteres verdiene etter hvilket objekt de tilhører. Og retunerer en array for hvert objekt. 
 	n=len(planet)
 	m=int(n/2) #Sett inn antall planeter
 	i=0;me=0; v=0; k=0; ma=0; j=0; s=0; u=0;N=0; p=0;S=0
@@ -108,55 +100,18 @@ def sortere_planeter(planet,x,y,vx,vy):
 		
 	return Sun_x,Sun_y,Me_x,Me_y,V_x,V_y,E_x,E_y,Ma_x,Ma_y,J_x,J_y, S_x,S_y, U_x,U_y,N_x,N_y,P_x,P_y
 
-#filename="build-Arnlaug-Desktop-Debug/Resultater_1000.txt"
+
 filename="build-Arnlaug-Desktop-Debug/Resultater.txt"
-#filename3="build-Arnlaug-Desktop-Debug/Resultater_10.txt"
-#jupiter="build-Arnlaug-Desktop-Debug/Jupiter.txt"
-##Euler="build-Arnlaug-Desktop-Debug/Euler_cromer_Sun_Earth.txt"
-#B_2="build-Arnlaug-Desktop-Debug/Verlet_Sun_Earth_beta_2.txt"
-##V_2_82="build-Arnlaug-Desktop-Debug/Verlet_Sun_Earth_282.txt"
-#V_2_81="build-Arnlaug-Desktop-Debug/Verlet_Sun_Earth_281.txt"
-
-#E_planet,Euler_x,Euler_y,Euler_vx,Euler_vy=leser(V_2_83)
-#E_planet,Verlet_x,Verlet_y,Verlet_vx,Verlet_vy=leser(B_2)
-#E_planet,V_x,V_y,V_vx,V_vy=leser(B_9)
-
-"""
-#plt.plot(Euler_x,Euler_y,'r', label="$V=2.83\pi^2 AU^3/yr^2$")
-f, (ax1, ax2) = plt.subplots(1, 2)
-#plt.xlabel('x-position (AU)')
-plt.ylabel('y-position (AU)')
-ax1.plot(V_x,V_y,'b', label="beta = 3")
-ax1.legend()
-plt.plot(Verlet_x,Verlet_y,'g', label="beta=2.9")
-plt.xlabel('x-position (AU)')
-#ax2.ylabel('y-position (AU)')
-ax2.legend()
-#plt.title("The Earth around the sun. Three different start velocit")
-#plt.savefig("Gravety_beta")
-
-plt.show()
-"""
 
 
+#Sender resultatfilen inn i lese og sorterings funksjonene. 
 planet,x,y,vx,vy=leser(filename)
 Sun_x,Sun_y,Me_x,Me_y,V_x,V_y,E_x,E_y,Ma_x,Ma_y,J_x,J_y, S_x,S_y, U_x,U_y,N_x,N_y,P_x,P_y=sortere_planeter(planet,x,y,vx,vy)
-"""
-E_x,E_y,J_x,J_y=sortere_planeter(planet,x,y,vx,vy)
-planet,x,y,vx,vy=leser(filename)
-E_x2,E_y2,J_x2,J_y2=sortere_planeter(planet,x,y,vx,vy)
-planet,x,y,vx,vy=leser(filename3)
-E_x3,E_y3,J_x3,J_y3=sortere_planeter(planet,x,y,vx,vy)
-#print J_x,planet
-"""
-	#else:
-		#print "Feile planeter"
 
+#Her plottes alle planetene
 plt.plot(Me_x,Me_y, label="Mercury")
 plt.plot(Sun_x,Sun_y,'o')
-plt.xlim(-0.4, 0.4)
-plt.ylim(-0.4, 0.4)
-"""
+
 plt.plot(V_x,V_y, label="Venus")
 plt.plot(E_x,E_y, label="Earth")
 plt.plot(Ma_x,Ma_y, label="Mars")
@@ -169,7 +124,6 @@ plt.xlabel('x-position (AU)')
 plt.ylabel('y-position (AU)')
 plt.legend()
 plt.savefig("All_planets")
-"""
 plt.show()
 
 """
