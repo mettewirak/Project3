@@ -23,7 +23,7 @@ class planet
             ~planet();
 
     // Functions
-            double distance(planet otherPlanet);
+            double distance(planet& otherPlanet);
             void print_to_screen();
             double kinetic_energy();
             double find_angular_momentum();
