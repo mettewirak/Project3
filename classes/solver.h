@@ -12,13 +12,16 @@ class solver
 
     // Variables
         double integration_points;
-        double time, final_time;
+        double time;
+        double final_time;
         double dt;
         double G;
         std::vector<planet> all_planets;
         int total_planets;
         double total_kinetic;
         double total_potential;
+        double total_mass;
+        double center_of_mass[2];
         int dim;
 
 
@@ -28,16 +31,16 @@ class solver
         ~solver(){}
 
     // Functions
-        void VelocityVerlet();
-        void Euler();
-        void print_to_screen();
-        string print_planet_name(planet current);
-        void print_energies();
+        void VelocityVerlet();                  // Prints the results to file "Resultater.txt"
+        void Euler();                           // Prints the results to file "Earth.txt" / other planets
+        void print_to_screen();                 // Prints all planets, with their positions and velocities, to screen.
+        string get_planet_name(planet current);
+        void print_energies();                  // Prints to file file
         void add_planet(planet new_planet);
         void calculate_kinetic_energies();
         void calculate_potential_energies();
         void update_angular_momentum();
-        void print_to_file(planet current);
+        void print_time_spent();                // Prints the time it takes to run VelocityVerlet and Euler to screen.
 };
 
 #endif // SOLVER_H
