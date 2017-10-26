@@ -12,7 +12,7 @@ solver::solver(){
 
     integration_points = 100000;
     time = 0.0;
-    final_time = 300.0;
+    final_time = 100;
     dt = final_time/integration_points;
     G = 4*M_PI*M_PI;
     dim = 2;
@@ -52,10 +52,8 @@ void solver::VelocityVerlet(){
 
     // Setter initialhastigheten til Sola slik at summen av momentet til alle objektene totalt er null.
     planet &current= all_planets[0];
-    current.velocity[0] = total_momentum_x;
-    current.velocity[1] = total_momentum_y;
-
-    // cout << "Solas hastighet er: " << total_momentum_x/365.242199 << ", " << total_momentum_y/365.242199 << endl;
+    current.velocity[0] = -total_momentum_x;
+    current.velocity[1] = -total_momentum_y;
 
 
     // Lager et sted å lagre akselerasjonene.
@@ -84,8 +82,7 @@ void solver::VelocityVerlet(){
     while (time<final_time) {
 
         // Iterere gjennom alle planetene for å finne posisjon, fart.
-        for(int nr1=1; nr1<total_planets; nr1++){ // !!! Antar at Sola alltid er planet nr. 0.
-
+        for(int nr1=0; nr1<total_planets; nr1++){ // !!! Antar at Sola alltid er planet nr. 0.
             planet &current= all_planets[nr1];
             std::string name= get_planet_name(current);
 
