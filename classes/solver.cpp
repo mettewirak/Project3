@@ -35,14 +35,24 @@ solver::solver(int integration_points, double final_time){
 
 void solver::VelocityVerlet(){
 
-    double x_relativistic = 0.0;
-    double y_relativistic = 0.0;
+    // UNCOMMENT THE FOLLOWING 10 LINES TO FIND THE PERIHELION (and some lines further down as well)
+    // double mercury_year = 0.2408538779;
+    // int round_nr = 1;
+    // double pelihelion[int(final_time/mercury_year)][3];
+
+    // for(int i=0; i<int(final_time/mercury_year); i++){
+    //    for(int j=0; j<3; j++){
+    //        pelihelion[i][0] = 0.0;     // x-coordinate
+    //        pelihelion[i][1] = 0.3075;     // y-coordinate
+    //        pelihelion[i][2] = 0.3075;     // distance to the sun from (x,y)
+    //    }
+    // }
 
     std::ofstream vofile("Resultater.txt");
 
     //Finner summen momentum til planetene
-    double total_momentum_x;
-    double total_momentum_y;
+    double total_momentum_x = 0.0;
+    double total_momentum_y = 0.0;
 
     for(int nr1=1; nr1<total_planets; nr1++){ // !!! Antar at Sola alltid er planet nr. 0.
         planet &current = all_planets[nr1];
@@ -55,6 +65,7 @@ void solver::VelocityVerlet(){
     current.velocity[0] = -total_momentum_x;
     current.velocity[1] = -total_momentum_y;
 
+    // cout << "Initialfarten til sola er " << current.velocity[0] << ", " << current.velocity[1] << endl;
 
     // Lager et sted å lagre akselerasjonene.
     double **acceleration, **acceleration_new;
@@ -62,7 +73,7 @@ void solver::VelocityVerlet(){
     acceleration_new = new double*[total_planets];
 
     for(int i=0; i<total_planets; i++){
-        acceleration[i] = new double[2]; // Dimension
+        acceleration[i] = new double[2];
         acceleration_new[i] = new double[2];
     }
 
@@ -81,10 +92,15 @@ void solver::VelocityVerlet(){
     time += dt;
     while (time<final_time) {
 
+        // UNCOMMENT THE FOLLOWING 3 LINES TO FIND THE PERIHELION
+        // if(time > mercury_year*round_nr){
+        //    round_nr += 1;
+        // }
+
         // Iterere gjennom alle planetene for å finne posisjon, fart.
         for(int nr1=0; nr1<total_planets; nr1++){ // !!! Antar at Sola alltid er planet nr. 0.
             planet &current= all_planets[nr1];
-            std::string name= get_planet_name(current);
+            std::string name = get_planet_name(current);
 
             // Itererer gjennom alle andre planeter for å finne krefter på planet nr 1.
             for(int nr2=0; nr2<total_planets; nr2++){
@@ -93,8 +109,8 @@ void solver::VelocityVerlet(){
 
                 if(nr1!=nr2){
 
-                    force[0] += force_relativistic(current, other, 0); // 7 FLOPS * (total_planets - 1)
-                    force[1] += force_relativistic(current, other, 1); // 7 FLOPS * (total_planets - 1)
+                    force[0] += force_general(current, other, 0); // 7 FLOPS * (total_planets - 1)
+                    force[1] += force_general(current, other, 1); // 7 FLOPS * (total_planets - 1)
                 }
             }
 
@@ -107,10 +123,12 @@ void solver::VelocityVerlet(){
                 current.position[dim] += dt*current.velocity[dim]+((dt*dt)/2)*acceleration[nr1][dim];
             }
 
-            if(current.distance(all_planets[0])<0.3076){
-                x_relativistic = current.position[0];
-                y_relativistic = current.position[1];
-            }
+            // UNCOMMENT THE FOLLOWING 5 LINES TO FIND THE PERIHELION
+            // if(current.distance(all_planets[0]) < pelihelion[round_nr-1][2] && current.mass!=1){
+            //     pelihelion[round_nr-1][0] = current.position[0];
+            //     pelihelion[round_nr-1][1] = current.position[1];
+            //     pelihelion[round_nr-1][2] = current.distance(all_planets[0]);
+            // }
 
             // Gjør hele kraft-biten en gang til for å finne a(t+dt)
             for(int nr2=0; nr2<total_planets; nr2++){
@@ -119,8 +137,8 @@ void solver::VelocityVerlet(){
 
                 if(nr1!=nr2){
 
-                    force_new[0] += force_relativistic(current, other, 0); // 7 FLOPS * (total_planets - 1)
-                    force_new[1] += force_relativistic(current, other, 1); // 7 FLOPS * * (total_planets - 1)
+                    force_new[0] += force_general(current, other, 0); // 7 FLOPS * (total_planets - 1)
+                    force_new[1] += force_general(current, other, 1); // 7 FLOPS * * (total_planets - 1)
                 }
             }
 
@@ -151,7 +169,12 @@ void solver::VelocityVerlet(){
 
     vofile.close();
 
-    cout << x_relativistic << ", " << y_relativistic << endl;
+    // UNCOMMENT THE FOLLOWING 4 LINES TO FIND THE PERIHELION
+
+    // cout << "\nPelihelions for " << round_nr << " Mercury-years." << endl;
+    // for(int i=0; i<int(final_time/mercury_year); i++){
+    //    cout << pelihelion[i][0] << "  " << pelihelion[i][1] << endl;
+    //}
 }
 
 
@@ -217,7 +240,7 @@ double solver::force_relativistic(planet& current, planet& other, int dim){
     double general = (G*current.mass*other.mass)/pow(current.distance(other),2);
     double l = current.position[0]*current.velocity[1] - current.position[1]*current.velocity[0];
     double r = current.distance(other);
-    double c = 63239.72639; // In AU/years. Value can be double checked.
+    double c = 63239.72639; // In AU/years.
 
     double dekomponering = (other.position[dim] - current.position[dim])/r;
 
@@ -252,6 +275,7 @@ string solver::get_planet_name(planet current){
     else if(current.mass==4.4e-5){return "Uranus";}
     else if(current.mass==5.15e-5){return "Neptune";}
     else if(current.mass==6.55e-9){return "Pluto";}
+    else {return "Unknown planet";}
 }
 
 

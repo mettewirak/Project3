@@ -31,18 +31,18 @@ class solver
         ~solver(){}
 
     // Functions
-        void VelocityVerlet();                  // Prints the results to file "Resultater.txt"
-        void Euler();                           // Prints the results to file "Earth.txt" / other planets
+        void VelocityVerlet();                          // Prints the results to file "Resultater.txt"
+        void Euler();                                   // Prints the results to file "Earth.txt" / other planets
         double force_general(planet& current, planet& other, int dim);
         double force_relativistic(planet& current, planet& other, int dim);
-        void print_to_screen();                 // Prints all planets, with their positions and velocities, to screen.
+        void print_to_screen();                         // Prints all planets, with their positions and velocities, to screen.
         string get_planet_name(planet current);
-        void print_energies();                  // Prints to file file
+        void print_energies();                          // Prints to file file
         void add_planet(planet new_planet);
         void calculate_kinetic_energies();
         void calculate_potential_energies();
         void update_angular_momentum();
-        void print_time_spent();                // Prints the time it takes to run VelocityVerlet and Euler to screen.
+        void print_time_spent();                        // Prints the time it takes to run VelocityVerlet and Euler to screen.
         void print_to_file(double x,double y,double vx,double vy,std::ofstream *ofile , std::string name);
 };
 
